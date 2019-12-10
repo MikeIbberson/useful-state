@@ -11,25 +11,25 @@
 <h2>useOpen</h2>
 <p>Use this to attach a ref to the open/close state of your UI component.
 
-| Methods | Description                              | Arguments |
-| ------- | ---------------------------------------- | --------- |
-| `open`  | Assign truthy value to `isOpen` property |           |
-| `close` | Assign falsy value to `isOpen` property  |           |
+| Methods | Description                              |
+| ------- | ---------------------------------------- |
+| `open`  | Assign truthy value to `isOpen` property |
+| `close` | Assign falsy value to `isOpen` property  |
 
 <h2>useToggle</h2>
 <p>Super similar to the hook above, only it ships with a toggle method and no refs.</p>
 
-| Methods  | Description                  | Arguments |
-| -------- | ---------------------------- | --------- |
-| `open`   | Assign truthy value to state |           |
-| `close`  | Assign falsy value to state  |           |
-| `toggle` | Inverts current state value  |           |
+| Methods  | Description                  |
+| -------- | ---------------------------- |
+| `open`   | Assign truthy value to state |
+| `close`  | Assign falsy value to state  |
+| `toggle` | Inverts current state value  |
 
 <h2>useValue</h2>
 <p>Most often used with inputs; provides an easy way to track value changes and manage focus.</p>
 
-| Methods    | Description                                  | Arguments |
-| ---------- | -------------------------------------------- | --------- |
-| `onFocus`  | Call the .focus() method on ref if it exists |           |
-| `onClear`  | Clear state                                  |           |
-| `onChange` | Assign target value to state                 | `event`   |
+| Methods    | Description                                                |
+| ---------- | ---------------------------------------------------------- |
+| `onFocus`  | Call the .focus() method on ref if it exists               |
+| `onClear`  | Clear state                                                |
+| `onChange` | Assign target value to state (provide an `event` argument) |
