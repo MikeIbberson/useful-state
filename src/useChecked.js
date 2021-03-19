@@ -5,7 +5,10 @@ const curryCallback = (fn, value) => () => fn(value);
 const filterByValue = (arr = [], value) =>
   arr.filter((i) => i !== value);
 
-export const filterStateByIds = (ids = []) => (arr = []) =>
+export const isInState = (arr = [], ids = []) =>
+  arr.filter((item) => ids.includes(item));
+
+export const filterStateByIds = (arr = [], ids = []) =>
   arr.filter((item) => !ids.includes(item));
 
 export const hasLength = (arr) =>
@@ -27,18 +30,17 @@ const useCheckboxes = () => {
   );
 
   const onCheck = (key) => () =>
-    setChecked(addToOrFilterFrom(checked, key));
+    setChecked((prev) => addToOrFilterFrom(prev, key));
 
   const onCheckAll = (ids) =>
     !isNotEmpty ? curryCallback(setChecked, ids) : clear;
 
-  const onCheckSome = (ids) =>
-    !isNotEmpty
-      ? () =>
-          setChecked((prevState) => [
-            ...new Set([...ids, ...prevState]),
-          ])
-      : () => setChecked(filterStateByIds(ids));
+  const onCheckSome = (ids) => () =>
+    setChecked((prev) =>
+      !hasLength(isInState(prev, ids))
+        ? [...new Set([...ids, ...prev])]
+        : filterStateByIds(prev, ids),
+    );
 
   const hasChecked = () =>
     React.useCallback(isNotEmpty, [checked]);

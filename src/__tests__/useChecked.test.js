@@ -29,16 +29,23 @@ describe('useChecked', () => {
   describe('"filterStateByIds"', () => {
     it('should remove matches', () => {
       expect(
-        filterStateByIds([3, 4])([1, 2, 3, 4]),
+        filterStateByIds([1, 2, 3, 4], [3, 4]),
       ).toEqual([1, 2]);
     });
   });
 
   describe('"hook"', () => {
-    it('should add to state', () => {
+    it('should add to state', (done) => {
+      setState.mockImplementation((f) => {
+        expect(f([])).toEqual([1]);
+        done();
+      });
+
       const props = useChecked();
       props.onCheck(1)();
-      expect(setState).toHaveBeenCalledWith([1]);
+      expect(setState).toHaveBeenCalledWith(
+        expect.any(Function),
+      );
     });
 
     it('should clear state', () => {
@@ -53,9 +60,23 @@ describe('useChecked', () => {
       expect(setState).toHaveBeenCalledWith([1, 2, 3]);
     });
 
-    it('should merge ids into state', () => {
-      setState.mockImplementation((args) => {
-        expect(args([1, 4, 5])).toEqual([1, 2, 3, 4, 5]);
+    it('should merge ids into state', (done) => {
+      setState.mockImplementation((f) => {
+        expect(f([])).toEqual([1, 2, 3]);
+        done();
+      });
+
+      const props = useChecked();
+      props.onCheckSome([1, 2, 3])();
+      expect(setState).toHaveBeenCalledWith(
+        expect.any(Function),
+      );
+    });
+
+    it('should clear ids from state', (done) => {
+      setState.mockImplementation((f) => {
+        expect(f([1, 2, 3, 4, 5])).toEqual([4, 5]);
+        done();
       });
 
       const props = useChecked();
