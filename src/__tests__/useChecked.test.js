@@ -1,6 +1,7 @@
 import useChecked, {
   hasLength,
   addToOrFilterFrom,
+  filterStateByIds,
 } from '../useChecked';
 import setState from '../utils';
 
@@ -25,6 +26,14 @@ describe('useChecked', () => {
       ]));
   });
 
+  describe('"filterStateByIds"', () => {
+    it('should remove matches', () => {
+      expect(
+        filterStateByIds([3, 4])([1, 2, 3, 4]),
+      ).toEqual([1, 2]);
+    });
+  });
+
   describe('"hook"', () => {
     it('should add to state', () => {
       const props = useChecked();
@@ -42,6 +51,18 @@ describe('useChecked', () => {
       const props = useChecked();
       props.onCheckAll([1, 2, 3])();
       expect(setState).toHaveBeenCalledWith([1, 2, 3]);
+    });
+
+    it('should merge ids into state', () => {
+      setState.mockImplementation((args) => {
+        expect(args([1, 4, 5])).toEqual([1, 2, 3, 4, 5]);
+      });
+
+      const props = useChecked();
+      props.onCheckSome([1, 2, 3])();
+      expect(setState).toHaveBeenCalledWith(
+        expect.any(Function),
+      );
     });
   });
 });
